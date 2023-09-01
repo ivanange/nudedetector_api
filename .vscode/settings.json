@@ -1,0 +1,22 @@
+{
+  "cSpell.words": [
+    "asarray",
+    "kdes",
+    "kdesa",
+    "KDESA",
+    "keypoints",
+    "kpca",
+    "kron",
+    "nanstd",
+    "nchannels",
+    "ndimage",
+    "scipy",
+    "sklearnex",
+    "sksurv",
+    "tqdm"
+  ],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.formatting.provider": "none"
+}
