@@ -9,7 +9,7 @@ __pycache__/
 *.so
 
 *.npy
-*.sav
+# *.sav
 
 *.numbers
 
