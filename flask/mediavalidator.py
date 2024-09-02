@@ -6,7 +6,6 @@ from skimage.transform import rescale
 from sklearn.metrics.pairwise import pairwise_kernels
 import urllib.request
 import os
-from sklearn.externals import joblib
 
 # defining constants
 CORRECTION_FACTOR = 2
@@ -93,7 +92,7 @@ def validate(filenames):
             MODEL_PATH,
         )
 
-    model = joblib.load(open(MODEL_PATH, "rb"))
+    model = load(open(MODEL_PATH, "rb"))
     model.kernel = "precomputed"
     survtime = predict(model, imageset)
     print(f"Survival time: {survtime}")
