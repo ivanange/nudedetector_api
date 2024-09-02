@@ -25,3 +25,4 @@ result_*.txt
 test*
 
 .serverless/
+.aws-sam/

@@ -19,13 +19,13 @@ Globals:
     
 
 Resources:
-  HelloWorldFunction:
+  NudeDetectorFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: flask/
       Handler: run.sh #required for the Lambda Web Adapter
       Events:
-        HelloWorld:
+        NudeDetector:
           Type: HttpApi
       Environment:
         Variables:
@@ -56,7 +56,7 @@ Resources:
   #        Key: "project"
 
 Outputs:
-  HelloWorldApi:
+  NudeDetectorApi:
     Description: API Gateway endpoint URL for Hello World function
     Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"
   # DynamoDBTable:

@@ -1,6 +1,8 @@
 {
   "cSpell.words": [
     "asarray",
+    "astype",
+    "imageset",
     "kdes",
     "kdesa",
     "KDESA",
@@ -13,6 +15,7 @@
     "scipy",
     "sklearnex",
     "sksurv",
+    "survtime",
     "tqdm"
   ],
   "[python]": {

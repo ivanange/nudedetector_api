@@ -1,12 +1,12 @@
 import numpy as np
-from joblib import dump, load
+from joblib import load
 from skimage import io, exposure
 from skimage.feature import hog
 from skimage.transform import rescale
 from sklearn.metrics.pairwise import pairwise_kernels
-import sksurv
-import io as bytesio
 import urllib.request
+import os
+from sklearn.externals import joblib
 
 # defining constants
 CORRECTION_FACTOR = 2
@@ -14,6 +14,7 @@ TARGET_SIZE = (256, 256)
 FEATURES_DIR = "features"
 MAX_FEATURE_SIZE = 328888
 MODEL_PATH = "models/hog_mixture_ratio_0_01-03-2023 11-01-11_model.sav"
+FEATURE_PATH = "features/dataset_reduced.csv_HOG_.npy"
 TIME_THRESHOLD = 128.278211 - 1e-100
 ALPHA = 0.05
 GAMMA = 0.5
@@ -30,14 +31,15 @@ def kernel(x, y):
 
 
 def predict(model, x):
-    dataset = np.load(
-        bytesio.BytesIO(
-            # TODO: Load from EFS
-            urllib.request.urlopen(
-                "https://www.dropbox.com/scl/fi/sd6h19x4fxibfi0d7b4bl/dataset_reduced.csv_HOG_.npy?rlkey=narjn7q5frv4feu63b8p3ok7y&st=kjuyuy82&dl=1"
-            ).read()
+
+    if not os.path.exists(FEATURE_PATH):
+        # download feature and save to file
+        urllib.request.urlretrieve(
+            "https://www.dropbox.com/scl/fi/sd6h19x4fxibfi0d7b4bl/dataset_reduced.csv_HOG_.npy?rlkey=narjn7q5frv4feu63b8p3ok7y&st=kjuyuy82&dl=1",
+            FEATURE_PATH,
         )
-    ).astype(np.float64)
+
+    dataset = np.load(FEATURE_PATH).astype(np.float64)
     x_train = np.delete(dataset, [-3, -2, -1], axis=1)
     max_d = max(x.shape[1], x_train.shape[1])
     kernel_matrix = kernel(
@@ -83,7 +85,15 @@ def validate(filenames):
     imageset = np.array(
         list(map(lambda filename: descriptor(io.imread(filename)), filenames))
     )
-    model = load(open(MODEL_PATH, "rb"))
+
+    if not os.path.exists(MODEL_PATH):
+        # download feature and save to file
+        urllib.request.urlretrieve(
+            "https://www.dropbox.com/scl/fi/xfw1z9fgzdumevafihq75/hog_mixture_ratio_0_01-03-2023-11-01-11_model.sav?rlkey=6w3jlplmxgmuroyozzquubv9z&st=8rrgfxgq&dl=1",
+            MODEL_PATH,
+        )
+
+    model = joblib.load(open(MODEL_PATH, "rb"))
     model.kernel = "precomputed"
     survtime = predict(model, imageset)
     print(f"Survival time: {survtime}")
