@@ -38,7 +38,7 @@ def predict(model, x):
             FEATURE_PATH,
         )
 
-    dataset = np.load(FEATURE_PATH, mmap_mode="c").astype(np.float64)
+    dataset = np.memmap(FEATURE_PATH, mode="c", dtype=np.float64)
     x_train = np.delete(dataset, [-3, -2, -1], axis=1)
     max_d = max(x.shape[1], x_train.shape[1])
     kernel_matrix = kernel(
