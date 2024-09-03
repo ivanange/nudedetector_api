@@ -6,6 +6,7 @@ from skimage.transform import rescale
 from sklearn.metrics.pairwise import pairwise_kernels
 import urllib.request
 import os
+import sys
 
 # defining constants
 CORRECTION_FACTOR = 2
@@ -38,7 +39,9 @@ def predict(model, x):
             FEATURE_PATH,
         )
 
-    dataset = np.memmap(FEATURE_PATH, mode="c")
+    # dataset = np.load(FEATURE_PATH)
+    dataset = np.memmap(FEATURE_PATH, mode="c", shape=(1091, 328891))
+    print(np.shape(dataset), file=sys.stdout)
     x_train = np.delete(dataset, [-3, -2, -1], axis=1)
     max_d = max(x.shape[1], x_train.shape[1])
     kernel_matrix = kernel(
