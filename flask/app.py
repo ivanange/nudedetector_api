@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from mediavalidator import validate
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.post("/validate")
@@ -14,7 +16,6 @@ def validate_image():
         results.append({"filename": file.filename, "valid": int(validation[i])})
 
     response = jsonify(results)
-    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 
