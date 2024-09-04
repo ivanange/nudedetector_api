@@ -12,7 +12,10 @@ def validate_image():
     results = []
     for i, file in enumerate(files):
         results.append({"filename": file.filename, "valid": int(validation[i])})
-    return jsonify(results)
+
+    response = jsonify(results)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.route("/")

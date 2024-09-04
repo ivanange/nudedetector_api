@@ -3,6 +3,7 @@
     "asarray",
     "astype",
     "imageset",
+    "jsonify",
     "kdes",
     "kdesa",
     "KDESA",
