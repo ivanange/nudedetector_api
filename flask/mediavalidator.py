@@ -14,7 +14,7 @@ TARGET_SIZE = (256, 256)
 FEATURES_DIR = "features"
 MAX_FEATURE_SIZE = 328888
 MODEL_PATH = "models/hog_mixture_ratio_0_01-03-2023 11-01-11_model.sav"
-FEATURE_PATH = "features/dataset_reduced.csv_HOG_.npy"
+FEATURE_PATH = "features/dataset_reduced.csv_HOG_.rbf"
 TIME_THRESHOLD = 128.278211 - 1e-100
 ALPHA = 0.05
 GAMMA = 0.5
@@ -35,13 +35,20 @@ def predict(model, x):
     if not os.path.exists(FEATURE_PATH):
         # download feature and save to file
         urllib.request.urlretrieve(
-            "https://www.dropbox.com/scl/fi/sd6h19x4fxibfi0d7b4bl/dataset_reduced.csv_HOG_.npy?rlkey=narjn7q5frv4feu63b8p3ok7y&st=kjuyuy82&dl=1",
+            "https://www.dropbox.com/scl/fi/jlq2vhnnfcizja8ptmstx/dataset_reduced.csv_HOG_.rbf?rlkey=g4ntgfki040nqyr709lt5bnti&st=dgdbqfep&dl=1",
             FEATURE_PATH,
         )
 
     # dataset = np.load(FEATURE_PATH)
-    dataset = np.memmap(FEATURE_PATH, mode="c", shape=(1091, 328891))
+    # dataset.tofile("features/dataset_reduced.csv_HOG_.rbf")
+    dataset = np.memmap(
+        FEATURE_PATH,
+        mode="c",
+        shape=(1091, 328891),
+        dtype=np.float16,
+    )
     print(np.shape(dataset), file=sys.stdout)
+    print(dataset.dtype, file=sys.stdout)
     x_train = np.delete(dataset, [-3, -2, -1], axis=1)
     max_d = max(x.shape[1], x_train.shape[1])
     kernel_matrix = kernel(
