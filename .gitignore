@@ -28,3 +28,4 @@ test*
 .aws-sam/
 
 */.DS_STORE
+**/.DS_STORE
