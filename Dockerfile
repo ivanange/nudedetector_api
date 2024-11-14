@@ -1,6 +1,11 @@
 # Use an official Python runtime as a parent image
 FROM python:3.12-slim
 
+LABEL traefik.http.middlewares.testheader.headers.accesscontrolallowmethods="GET,OPTIONS,PUT"
+LABEL traefik.http.middlewares.testheader.headers.accesscontrolalloworigin="origin-list-or-null"
+LABEL traefik.http.middlewares.testheader.headers.accesscontrolmaxage="100"
+LABEL traefik.http.middlewares.testheader.headers.addvaryheader="true"
+
 RUN mkdir /app && chmod -R 777 /app
 
 # Set the working directory in the container
