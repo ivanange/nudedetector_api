@@ -11,7 +11,8 @@ LABEL traefik.http.middlewares.cors.headers.accessControlAllowCredentials="true"
 # Apply the CORS middleware to a specific router for this service
 LABEL traefik.http.routers.nudedetectorapi.middlewares="cors"
 LABEL traefik.http.routers.nudedetectorapi.rule="Host(`nudeapi.ivanange.dev`)"
-LABEL traefik.http.routers.nudedetectorapi.entryPoints="websecure"
+LABEL traefik.http.routers.nudedetectorapi.entryPoints=http
+LABEL traefik.http.routers.nudedetectorapi.entryPoints=https
 
 RUN mkdir /app && chmod -R 777 /app
 
@@ -38,3 +39,7 @@ EXPOSE 5000
 
 # Run the command to start the app when the container launches
 CMD ["gunicorn", "app:app", "--workers", "2", "--bind", "0.0.0.0:5000", "--log-file", "/app/nudedetector.log", "--log-level", "info"]
+
+# Add a health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl --fail http://localhost:5000/ || exit 1
