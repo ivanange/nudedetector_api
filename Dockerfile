@@ -2,17 +2,17 @@
 FROM python:3.12-slim
 
 # Add Traefik labels for CORS configuration
-LABEL traefik.enable="true"
-LABEL traefik.http.middlewares.cors.headers.accessControlAllowOrigin="*"
-LABEL traefik.http.middlewares.cors.headers.accessControlAllowMethods="GET,OPTIONS,PUT,POST,DELETE"
-LABEL traefik.http.middlewares.cors.headers.accessControlAllowHeaders="Content-Type,Authorization"
-LABEL traefik.http.middlewares.cors.headers.accessControlAllowCredentials="true"
+# LABEL traefik.enable="true"
+# LABEL traefik.http.middlewares.cors.headers.accessControlAllowOrigin="*"
+# LABEL traefik.http.middlewares.cors.headers.accessControlAllowMethods="GET,OPTIONS,PUT,POST,DELETE"
+# LABEL traefik.http.middlewares.cors.headers.accessControlAllowHeaders="Content-Type,Authorization"
+# LABEL traefik.http.middlewares.cors.headers.accessControlAllowCredentials="true"
 
-# Apply the CORS middleware to a specific router for this service
-LABEL traefik.http.routers.nudedetectorapi.middlewares="cors"
-LABEL traefik.http.routers.nudedetectorapi.rule="Host(`nudeapi.ivanange.dev`)"
-LABEL traefik.http.routers.nudedetectorapi.entryPoints=http
-LABEL traefik.http.routers.nudedetectorapi.entryPoints=https
+# # Apply the CORS middleware to a specific router for this service
+# LABEL traefik.http.routers.nudedetectorapi.middlewares="cors"
+# LABEL traefik.http.routers.nudedetectorapi.rule="Host(`nudeapi.ivanange.dev`)"
+# LABEL traefik.http.routers.nudedetectorapi.entryPoints=http
+# LABEL traefik.http.routers.nudedetectorapi.entryPoints=https
 
 RUN mkdir /app && chmod -R 777 /app
 
